@@ -1,0 +1,31 @@
+# Dependencies & build
+**/node_modules/
+大数据可视化网页/app/dist/
+**/.vite/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Large raw exports (JSON in public/data is kept for the site)
+output/
+*.zip
+
+# Scratch / duplicate exports
+spss_dataset.csv
+deepseek_html_*.html
+gemini-code-*.html
+全球化跨文化借用大屏.html
+
+# OS & editor
+.DS_Store
+Thumbs.db
+*.local
+.vscode/
+.idea/
+
+# Secrets
+.env
+.env.*

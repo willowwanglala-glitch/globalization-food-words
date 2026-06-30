@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全球化下的饮食词汇借用 · 数据可视化 Demo</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/features.css" />
+  <script src="js/vendor/echarts.min.js"></script>
+</head>
+<body>
+  <button type="button" id="theme-toggle" class="theme-toggle" data-mode="academic">切换：菜单主题</button>
+
+  <nav id="story-rail" class="story-rail" aria-label="叙事进度"></nav>
+
+  <div id="story-insight" class="story-insight">
+    向下滚动，图表将随叙事段落联动更新时间范围。
+  </div>
+
+  <div id="gesture-feedback" class="gesture-feedback" aria-live="polite"></div>
+
+  <aside id="gesture-hints" class="gesture-hints">
+    <div class="gesture-hints-header">
+      <strong>手势与快捷键</strong>
+      <button type="button" id="gesture-hint-toggle" class="gesture-hint-close" aria-label="关闭">×</button>
+    </div>
+    <ul>
+      <li><span class="gesture-key">上/下滑</span> 切换叙事段落</li>
+      <li><span class="gesture-key">左/右滑</span> 时间轴 ±20 年</li>
+      <li><span class="gesture-key">双指捏合</span> 缩放时间范围</li>
+      <li><span class="gesture-key">↑ ↓ ← →</span> 键盘导航 / 时间</li>
+      <li><span class="gesture-key">+ − R</span> 放大 / 缩小 / 重置</li>
+      <li><span class="gesture-key">?</span> 显示/隐藏本面板</li>
+    </ul>
+    <p class="gesture-hints-camera">摄像头：手左/右移切年代 · 捏合缩小 · 张掌重置</p>
+    <button type="button" id="camera-toggle" class="camera-toggle">开启摄像头手势</button>
+  </aside>
+
+  <div id="camera-panel" class="camera-panel">
+    <div class="camera-view">
+      <video id="camera-video" playsinline muted autoplay></video>
+      <canvas id="camera-canvas" width="320" height="240"></canvas>
+    </div>
+    <p id="camera-status" class="camera-status"></p>
+  </div>
+
+  <div id="flip-overlay" class="flip-overlay">
+      <div id="flip-card" class="flip-card">
+      <button type="button" id="flip-close" class="flip-close" aria-label="关闭">×</button>
+      <div id="flip-inner" class="flip-inner">
+        <div class="flip-front">
+          <span class="flip-label">English</span>
+          <h3 id="flip-front-word">word</h3>
+          <p id="flip-front-meta">—</p>
+          <p class="flip-hint">点击卡片翻转查看词源原文</p>
+        </div>
+        <div class="flip-back">
+          <span class="flip-label">词源原文</span>
+          <h3 id="flip-back-native">—</h3>
+          <p id="flip-back-desc">—</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="timeline-bar" aria-label="全局时间轴">
+    <div class="timeline-bar-inner">
+      <div class="timeline-header">
+        <span class="timeline-title">全局时间轴</span>
+        <span id="timeline-label" class="timeline-range">1550 — 2000</span>
+        <span id="timeline-era" class="timeline-era">—</span>
+      </div>
+      <div class="timeline-track">
+        <div id="timeline-fill" class="timeline-fill"></div>
+        <input type="range" id="global-year-min" min="1550" max="1990" value="1550" step="10" aria-label="起始年份" />
+        <input type="range" id="global-year-max" min="1560" max="2000" value="2000" step="10" aria-label="结束年份" />
+      </div>
+      <div class="timeline-footer">
+        <span>当前筛选 <strong id="timeline-count">—</strong> 条词汇</span>
+        <button type="button" id="timeline-reset" class="timeline-reset">重置</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="page">
+    <header class="hero story-section" id="story-intro">
+      <span class="hero-tag">Big Data &amp; Visualization · Demo</span>
+      <h1>全球化下的饮食词汇借用</h1>
+      <p class="hero-subtitle">
+        当 Sushi、Tofu、Croissant 进入英语日常口语，它们不仅是菜单上的词，
+        更是文化接触与融合的痕迹。拖动时间轴解锁<strong>历史菜单</strong>，观看借词<strong>移民动画</strong>，
+        并探索对比分屏、世界地图与 Bar Chart Race。
+      </p>
+      <div class="hero-meta">
+        <span>数据维度：<strong>时间 · 源语言 · 流行度 · ML</strong></span>
+        <span>词汇样本：<strong id="hero-count">—</strong> 条（真实数据）</span>
+        <span>运行模式：<strong>离线本地版</strong></span>
+      </div>
+      <p class="scroll-hint">↓ 向下滚动；左侧导航第 <strong>10</strong> 节为机器学习分析</p>
+    </header>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-words">—</div>
+        <div class="stat-label">当前区间借词数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-langs">—</div>
+        <div class="stat-label">源语言种类</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-avg-year">—</div>
+        <div class="stat-label">平均进入年份</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-top">—</div>
+        <div class="stat-label">流行度最高词</div>
+      </div>
+    </div>
+
+    <section id="menu" class="story-section menu-section">
+      <div class="section-num">00 · 历史菜单</div>
+      <h2>英语餐桌上的时光菜单</h2>
+      <p class="story-lead">
+        拖动底部时间轴，借词如菜品逐道「上架」。未进入英语的词以 ??? 显示，解锁后可点击查看词源翻转卡片。
+      </p>
+      <p class="story-insight-inline">
+        💡 洞察：1700 年前菜单以香料与基础原料为主；1900 年后东亚与地中海风味显著增加。
+      </p>
+      <p id="menu-era-label" class="menu-era-label">—</p>
+      <div class="menu-stage">
+        <canvas id="particle-canvas" class="particle-canvas" aria-hidden="true"></canvas>
+        <div id="menu-grid" class="menu-grid"></div>
+      </div>
+    </section>
+
+    <section id="stream" class="story-section">
+      <div class="section-num">01 · 浪潮</div>
+      <h2>借词涌入的时间之河</h2>
+      <p class="story-lead">
+        流式图将每个十年间新进入英语的饮食借词按源语言堆叠。早期以阿拉伯、法语、
+        西班牙语词汇为主；19 世纪末至 20 世纪，意大利、日式与中式饮食词汇形成新浪潮。
+      </p>
+      <p class="story-insight-inline">
+        💡 洞察：1700 年前借词多与香料、糖、柑橘有关，反映大航海时代的物质交换。
+      </p>
+      <div class="chart-card" data-chart="stream">
+        <div class="chart-title">流式图 · 各源语言借词进入数量（按十年 · 高亮区 = 当前时间范围）</div>
+        <div id="stream-chart" class="chart chart-tall" style="width:100%;height:480px;"></div>
+      </div>
+    </section>
+
+    <section id="bubble" class="story-section">
+      <div class="section-num">02 · 个体</div>
+      <h2>每一颗气泡，一个词的故事</h2>
+      <p class="story-lead">
+        横轴为首次进入英语年份，纵轴为流行度，气泡大小反映流行程度。<strong>点击气泡</strong>打开词源翻转卡片。
+      </p>
+      <p class="story-insight-inline">
+        💡 洞察：20 世纪后期日语、中文词汇气泡明显增多，与移民潮和餐饮全球化同步。
+      </p>
+      <div class="filters">
+        <label>
+          源语言
+          <select id="lang-filter">
+            <option value="all">全部</option>
+          </select>
+        </label>
+      </div>
+      <div class="chart-card" data-chart="bubble">
+        <div class="chart-title">气泡图 · 进入时间 × 流行度（点击翻转词源卡片）</div>
+        <div id="bubble-chart" class="chart chart-tall" style="width:100%;height:480px;"></div>
+        <div id="word-detail" class="detail-panel empty">点击上方气泡，查看词源翻转卡片</div>
+      </div>
+    </section>
+
+    <section id="compare" class="story-section">
+      <div class="section-num">02b · 时代对比</div>
+      <h2>1850 vs 2000：借词版图变迁</h2>
+      <p class="story-lead">
+        分屏对比两个历史截面上各源语言的累计借词数量，一窥全球化前后英语饮食词汇结构的变化。
+      </p>
+      <div class="compare-split">
+        <div class="chart-card compare-panel">
+          <div id="compare-chart-a" class="chart compare-chart" style="width:100%;height:380px;"></div>
+        </div>
+        <div class="compare-divider">→</div>
+        <div class="chart-card compare-panel">
+          <div id="compare-chart-b" class="chart compare-chart" style="width:100%;height:380px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="world-map" class="story-section">
+      <div class="section-num">02c · 世界地图</div>
+      <h2>借词的地理原点</h2>
+      <p class="story-lead">
+        各源语言在其地理原点以光点呈现（大小 = 当前时间范围内借词数），金色核心为 English 汇流目标。
+      </p>
+      <div class="chart-card map-card">
+        <div class="world-map-bg" aria-hidden="true"></div>
+        <div id="world-map-chart" class="chart chart-tall" style="width:100%;height:480px;"></div>
+      </div>
+    </section>
+
+    <section id="bar-race" class="story-section">
+      <div class="section-num">02d · 动态赛跑</div>
+      <h2>Bar Chart Race · 语言浪潮赛跑</h2>
+      <p class="story-lead">
+        各源语言累计借词数量随年代自动「赛跑」，直观看哪国饮食词汇在何时领先。
+      </p>
+      <div class="bar-race-controls">
+        <span>当前年份：<strong id="bar-race-year">1550</strong></span>
+        <button type="button" id="bar-race-play" class="bar-race-btn">播放</button>
+        <button type="button" id="bar-race-pause" class="bar-race-btn">暂停</button>
+      </div>
+      <div class="chart-card">
+        <div id="bar-race-chart" class="chart chart-tall" style="width:100%;height:480px;"></div>
+      </div>
+    </section>
+
+    <section id="languages" class="story-section">
+      <div class="section-num">03 · 来源</div>
+      <h2>谁的词汇最多？</h2>
+      <p class="story-lead">
+        按源语言汇总借词数量，理解不同文化区域对英语饮食词汇的贡献格局。
+      </p>
+      <p class="story-insight-inline">
+        💡 洞察：法语借词多来自餐饮制度（restaurant、menu），西班牙语则与美洲作物密切相关。
+      </p>
+      <div class="chart-card" data-chart="bar">
+        <div class="chart-title">柱状图 · 各源语言借词数量（当前时间范围内）</div>
+        <div id="bar-chart" class="chart"></div>
+      </div>
+    </section>
+
+    <section id="advanced" class="advanced-section story-section">
+      <div class="section-num">04 · 技术突破</div>
+      <h2>高级图表：文化融合的多维视角</h2>
+      <p class="story-lead">
+        树图、桑基图与力导向网络图对应「技术突破」加分项，从层级、流动与关联三个角度解读借词结构。
+      </p>
+      <p class="story-insight-inline">
+        💡 洞察：桑基图清晰展示「时代 → 语言 → 类别」三级流动，全球化浪潮期路径最宽。
+      </p>
+
+      <div class="chart-card" data-chart="treemap">
+        <div class="chart-title">树图 Treemap · 源语言 → 饮食类别 → 词条（面积 = 流行度）</div>
+        <div id="treemap-chart" class="chart chart-tall"></div>
+      </div>
+
+      <div class="chart-card" data-chart="sankey">
+        <div class="chart-title">桑基图 Sankey · 历史阶段 → 源语言 → 饮食类别</div>
+        <div id="sankey-chart" class="chart chart-tall"></div>
+      </div>
+
+      <div class="chart-card" data-chart="force">
+        <div class="chart-title">力导向网络 · 源语言 ↔ 饮食类别（可拖拽）</div>
+        <div id="force-chart" class="chart chart-tall"></div>
+      </div>
+    </section>
+
+    <section id="ml" class="story-section ml-section">
+      <div class="section-num">05 · 机器学习</div>
+      <h2>语料轨迹聚类与类别预测</h2>
+      <p class="story-lead">
+        基于 Google Books Ngram 的 1800–2020 年频率序列，用 <strong>K-Means</strong> 发现借词「采纳模式」；
+        用 <strong>随机森林回归</strong> 从首次年份、语料统计与源语言预测借词在语料中的峰值流行度。
+      </p>
+      <p class="story-insight-inline">
+        💡 洞察：后期爆发型聚类多含寿司、拉面等日式词汇；经典高频型则对应咖啡、巧克力等早期进入词。
+      </p>
+      <div id="ml-stats" class="ml-stats-row"></div>
+      <div class="filters">
+        <label>
+          聚类筛选
+          <select id="ml-cluster-filter">
+            <option value="all">全部聚类</option>
+          </select>
+        </label>
+      </div>
+      <div class="chart-card" data-chart="ml-cluster">
+        <div class="chart-title">PCA 散点图 · 语料轨迹聚类（气泡大小 = 流行度）</div>
+        <div id="ml-cluster-chart" class="chart chart-tall" style="width:100%;height:420px;"></div>
+      </div>
+      <div class="chart-card" data-chart="ml-curve">
+        <div class="chart-title">典型轨迹 · 各聚类平均语料频率（每 20 年采样）</div>
+        <div id="ml-curve-chart" class="chart chart-tall" style="width:100%;height:380px;"></div>
+      </div>
+      <div class="ml-split">
+        <div class="chart-card" data-chart="ml-importance">
+          <div class="chart-title">随机森林 · 特征重要性</div>
+          <div id="ml-importance-chart" class="chart" style="width:100%;height:320px;"></div>
+        </div>
+        <div class="chart-card" data-chart="ml-regression">
+          <div class="chart-title">回归拟合 · 实际 vs 预测 log(峰值频率)</div>
+          <div id="ml-regression-chart" class="chart" style="width:100%;height:320px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>《大数据及其可视化》期末项目 · 可视化 Demo 版</p>
+      <p>数据来源：外来饮食借词清单 + Google Ngram · 机器学习：K-Means / 随机森林 · ECharts 离线</p>
+    </footer>
+  </div>
+
+  <script src="data/words.js"></script>
+  <script src="data/ml_results.js"></script>
+  <script src="js/chart-helper.js"></script>
+  <script src="js/scroll.js"></script>
+  <script src="js/features.js"></script>
+  <script src="js/gestures.js"></script>
+  <script src="js/ml.js"></script>
+  <script src="js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script>
+    if (typeof WORDS_DATA !== "undefined") {
+      document.getElementById("hero-count").textContent = WORDS_DATA.length;
+    }
+  </script>
+</body>
+</html>
