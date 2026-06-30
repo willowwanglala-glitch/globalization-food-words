@@ -3,6 +3,8 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main, master]
+    paths-ignore:
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:
@@ -13,6 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -26,7 +30,25 @@ jobs:
           npm ci
           npm run build
 
-      - name: Deploy to gh-pages branch
+      - name: Copy build to docs/ (for Pages: main /docs)
+        run: |
+          rm -rf docs
+          cp -r "大数据可视化网页/app/dist" docs
+          touch docs/.nojekyll
+
+      - name: Commit docs to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          if git diff --staged --quiet; then
+            echo "No changes in docs/"
+          else
+            git commit -m "docs: update GitHub Pages site [skip ci]"
+            git push
+          fi
+
+      - name: Also publish to gh-pages branch (backup)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
