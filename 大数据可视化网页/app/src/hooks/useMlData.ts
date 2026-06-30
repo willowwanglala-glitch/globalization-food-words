@@ -68,7 +68,7 @@ export function useMlData() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/data/ml_results.json')
+    fetch(`${import.meta.env.BASE_URL}data/ml_results.json`)
       .then((res) => {
         if (!res.ok) throw new Error('ml_results.json 加载失败');
         return res.json();

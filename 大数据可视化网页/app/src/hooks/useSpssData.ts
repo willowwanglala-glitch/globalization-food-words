@@ -39,7 +39,7 @@ export function useSpssData() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/data/spss_mw_category.json')
+    fetch(`${import.meta.env.BASE_URL}data/spss_mw_category.json`)
       .then((res) => {
         if (!res.ok) throw new Error('spss_mw_category.json 加载失败');
         return res.json();

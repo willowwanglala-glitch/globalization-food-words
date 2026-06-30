@@ -24,7 +24,7 @@ export function GlobalMapSection({ data }: Props) {
   useEffect(() => {
     if (!chartRef.current) return;
 
-    fetch('/data/world_geo.json')
+    fetch(`${import.meta.env.BASE_URL}data/world_geo.json`)
       .then((res) => res.json())
       .then((geoJson) => {
         echarts.registerMap('world', geoJson as any);

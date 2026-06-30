@@ -100,7 +100,7 @@ export function useData() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/data/visualization_data.json')
+    fetch(`${import.meta.env.BASE_URL}data/visualization_data.json`)
       .then((res) => res.json())
       .then((json) => {
         setData(json);
