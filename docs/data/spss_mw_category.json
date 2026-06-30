@@ -1,0 +1,181 @@
+{
+  "test": "MW_Included x Category",
+  "description": "Pearson 卡方检验：Merriam-Webster 收录与否与语义类别的关联",
+  "overall_mw_rate": 64.8,
+  "merged": {
+    "label": "五类语义场",
+    "categories": [
+      {
+        "category": "食物",
+        "mw_included": 234,
+        "not_included": 106,
+        "total": 340,
+        "mw_rate": 68.8
+      },
+      {
+        "category": "饮品",
+        "mw_included": 66,
+        "not_included": 77,
+        "total": 143,
+        "mw_rate": 46.2
+      },
+      {
+        "category": "技法/调味",
+        "mw_included": 84,
+        "not_included": 26,
+        "total": 110,
+        "mw_rate": 76.4
+      },
+      {
+        "category": "其他",
+        "mw_included": 42,
+        "not_included": 24,
+        "total": 66,
+        "mw_rate": 63.6
+      },
+      {
+        "category": "制度/身份",
+        "mw_included": 3,
+        "not_included": 0,
+        "total": 3,
+        "mw_rate": 100.0
+      }
+    ],
+    "chi_square": {
+      "chi2": 32.329,
+      "df": 4,
+      "p": 1.6386086742122908e-06,
+      "p_display": "< .001",
+      "n_valid": 662,
+      "cells_expected_lt5_pct": 20.0,
+      "min_expected": 1.06
+    }
+  },
+  "detailed": {
+    "label": "细分类（样本≥8）",
+    "categories": [
+      {
+        "category": "饮品",
+        "mw_included": 64,
+        "not_included": 75,
+        "total": 139,
+        "mw_rate": 46.0
+      },
+      {
+        "category": "调味品",
+        "mw_included": 70,
+        "not_included": 21,
+        "total": 91,
+        "mw_rate": 76.9
+      },
+      {
+        "category": "甜品",
+        "mw_included": 28,
+        "not_included": 20,
+        "total": 48,
+        "mw_rate": 58.3
+      },
+      {
+        "category": "菜品",
+        "mw_included": 17,
+        "not_included": 18,
+        "total": 35,
+        "mw_rate": 48.6
+      },
+      {
+        "category": "水果",
+        "mw_included": 28,
+        "not_included": 6,
+        "total": 34,
+        "mw_rate": 82.4
+      },
+      {
+        "category": "主食",
+        "mw_included": 19,
+        "not_included": 13,
+        "total": 32,
+        "mw_rate": 59.4
+      },
+      {
+        "category": "蔬菜",
+        "mw_included": 29,
+        "not_included": 3,
+        "total": 32,
+        "mw_rate": 90.6
+      },
+      {
+        "category": "食材",
+        "mw_included": 23,
+        "not_included": 9,
+        "total": 32,
+        "mw_rate": 71.9
+      },
+      {
+        "category": "海鲜",
+        "mw_included": 20,
+        "not_included": 0,
+        "total": 20,
+        "mw_rate": 100.0
+      },
+      {
+        "category": "烘焙",
+        "mw_included": 16,
+        "not_included": 3,
+        "total": 19,
+        "mw_rate": 84.2
+      },
+      {
+        "category": "肉类",
+        "mw_included": 12,
+        "not_included": 7,
+        "total": 19,
+        "mw_rate": 63.2
+      },
+      {
+        "category": "面食",
+        "mw_included": 13,
+        "not_included": 5,
+        "total": 18,
+        "mw_rate": 72.2
+      },
+      {
+        "category": "汤",
+        "mw_included": 6,
+        "not_included": 8,
+        "total": 14,
+        "mw_rate": 42.9
+      },
+      {
+        "category": "烹饪法",
+        "mw_included": 10,
+        "not_included": 3,
+        "total": 13,
+        "mw_rate": 76.9
+      },
+      {
+        "category": "小吃",
+        "mw_included": 3,
+        "not_included": 8,
+        "total": 11,
+        "mw_rate": 27.3
+      },
+      {
+        "category": "小菜",
+        "mw_included": 6,
+        "not_included": 3,
+        "total": 9,
+        "mw_rate": 66.7
+      }
+    ],
+    "chi_square": {
+      "chi2": 141.285,
+      "df": 65,
+      "p": 1.4069087498599282e-07,
+      "p_display": "< .001",
+      "n_valid": 662,
+      "cells_expected_lt5_pct": 78.8,
+      "min_expected": 0.35
+    },
+    "spss_note": "SPSS 全细分类输出：χ²=141.285，df=65，p<.001，78.8% 单元格期望频数<5"
+  }
+}
