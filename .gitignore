@@ -25,6 +25,12 @@ Thumbs.db
 *.local
 .vscode/
 .idea/
+~$*.docx
+
+# Course docs (keep local, not in repo)
+外来饮食清单国家.docx
+要求.docx
+观点论坛.docx
 
 # Secrets
 .env
