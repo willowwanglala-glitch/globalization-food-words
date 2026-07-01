@@ -6,9 +6,10 @@ import CountUp from 'react-countup';
 interface Props {
   data: VisualizationData;
   mlWordsWithNgrams?: number;
+  variant?: 'full' | 'pre';
 }
 
-export function HeroSection({ data, mlWordsWithNgrams }: Props) {
+export function HeroSection({ data, mlWordsWithNgrams, variant = 'full' }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Animated background particles
@@ -94,13 +95,13 @@ export function HeroSection({ data, mlWordsWithNgrams }: Props) {
   const avgMwRate = Object.values(data.langStats).reduce((sum, s) => sum + s.mw_rate, 0) / totalLangs;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-sm mb-6">
           <Globe className="w-4 h-4" />
-          <span>大数据与可视化期末项目</span>
+          <span>{variant === 'pre' ? '答辩精简版 · 10 屏' : '大数据与可视化期末项目'}</span>
         </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
@@ -153,10 +154,10 @@ export function HeroSection({ data, mlWordsWithNgrams }: Props) {
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
-            onClick={() => document.getElementById('streamgraph')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => document.getElementById('globalmap')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all shadow-lg shadow-amber-500/25"
           >
-            开始探索
+            {variant === 'pre' ? '开始答辩' : '开始探索'}
           </button>
           <button
             onClick={() => document.getElementById('asymmetry')?.scrollIntoView({ behavior: 'smooth' })}

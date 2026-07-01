@@ -1,26 +1,14 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 import { Menu, X, BarChart3 } from 'lucide-react';
+import type { NavItem } from '../navConfig';
 
-const navItems = [
-  { id: 'globalmap', label: '全球地图' },
-  { id: 'streamgraph', label: '词汇浪潮' },
-  { id: 'bubble', label: '气泡图' },
-  { id: 'wordcloud', label: '词云' },
-  { id: 'sankey', label: '桑基图' },
-  { id: 'sunburst', label: '旭日图' },
-  { id: 'network', label: '网络图' },
-  { id: 'treemap', label: '树图' },
-  { id: 'radar', label: '雷达图' },
-  { id: 'boxplot', label: '箱线图' },
-  { id: 'category', label: '类别分布' },
-  { id: 'asymmetry', label: '双轨不对称' },
-  { id: 'spss', label: 'SPSS检验' },
-  { id: 'latency', label: '时序分布' },
-  { id: 'cases', label: '个案深描' },
-  { id: 'ml', label: '机器学习' },
-];
+interface Props {
+  navItems: NavItem[];
+  variant?: 'full' | 'pre';
+}
 
-export function Navigation() {
+export function Navigation({ navItems, variant = 'full' }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -38,6 +26,8 @@ export function Navigation() {
     }
   };
 
+  const title = variant === 'pre' ? '答辩精简版' : '饮食词汇借用可视化';
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
@@ -46,25 +36,34 @@ export function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
-          <div className="flex items-center space-x-2">
-            <BarChart3 className="w-5 h-5 text-amber-400" />
-            <span className="font-bold text-white text-sm hidden sm:block">饮食词汇借用可视化</span>
+          <div className="flex items-center space-x-2 min-w-0">
+            <BarChart3 className="w-5 h-5 text-amber-400 shrink-0" />
+            <span className="font-bold text-white text-sm hidden sm:block truncate">{title}</span>
+            {variant === 'pre' && (
+              <span className="hidden lg:inline text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                PRE · 10 屏
+              </span>
+            )}
           </div>
 
-          {/* Desktop nav */}
           <div className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
-                className="px-3 py-1.5 text-xs text-slate-500 hover:text-amber-400 hover:bg-white rounded-md transition-colors"
+                className="px-2.5 py-1.5 text-xs text-slate-500 hover:text-amber-400 hover:bg-white rounded-md transition-colors"
               >
                 {item.label}
               </button>
             ))}
+            <Link
+              to={variant === 'pre' ? '/' : '/pre'}
+              className="ml-2 px-2.5 py-1.5 text-xs text-indigo-400 hover:text-indigo-300 border border-indigo-500/30 rounded-md transition-colors whitespace-nowrap"
+            >
+              {variant === 'pre' ? '完整版' : '答辩版'}
+            </Link>
           </div>
 
-          {/* Mobile menu button */}
           <button
             className="md:hidden p-2 text-slate-500"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -74,9 +73,8 @@ export function Navigation() {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-slate-950/95 backdrop-blur-md border-t border-white/10">
+        <div className="md:hidden bg-slate-950/95 backdrop-blur-md border-t border-white/10 max-h-[70vh] overflow-y-auto">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -86,6 +84,13 @@ export function Navigation() {
               {item.label}
             </button>
           ))}
+          <Link
+            to={variant === 'pre' ? '/' : '/pre'}
+            onClick={() => setMobileOpen(false)}
+            className="block px-4 py-3 text-sm text-indigo-400 border-t border-white/10"
+          >
+            {variant === 'pre' ? '切换到完整版 →' : '切换到答辩精简版 →'}
+          </Link>
         </div>
       )}
     </nav>

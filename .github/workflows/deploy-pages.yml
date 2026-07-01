@@ -3,6 +3,8 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main, master]
+    paths-ignore:
+      - 'docs/**'
   workflow_dispatch:
 
 permissions:
@@ -27,6 +29,21 @@ jobs:
         run: |
           npm ci
           npm run build
+
+      - name: Sync docs/ for GitHub Pages (main branch source)
+        run: |
+          rm -rf docs/assets
+          cp 大数据可视化网页/app/dist/index.html docs/
+          cp -r 大数据可视化网页/app/dist/assets docs/
+          cp -r 大数据可视化网页/app/dist/data/* docs/data/
+
+      - name: Commit updated docs/ to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git diff --staged --quiet || git commit -m "Update docs/ site build from CI."
+          git push
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4

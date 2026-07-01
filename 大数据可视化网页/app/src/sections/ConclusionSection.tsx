@@ -18,7 +18,7 @@ export function ConclusionSection({ data }: Props) {
   const foodLeaders = useMemo(() => sankeyLayerLeaders(data, '食物层', 3), [data]);
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-950">
+    <section id="conclusion" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-950">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">核心发现与理论贡献</h2>

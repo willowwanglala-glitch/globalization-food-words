@@ -20,7 +20,12 @@ npm install
 npm run dev
 ```
 
-浏览器打开终端提示的地址（通常 `http://localhost:5173`）。
+浏览器打开终端提示的地址（通常 `http://localhost:3000`）。
+
+- **完整版**（全部图表）：`http://localhost:3000/#/`
+- **答辩精简版**（10 屏）：`http://localhost:3000/#/pre`
+
+详见 [`大数据可视化网页/PRE.md`](大数据可视化网页/PRE.md)。
 
 ### 生产构建
 
