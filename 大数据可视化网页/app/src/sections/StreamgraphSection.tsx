@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState, useMemo } from 'react';
+﻿import { useEffect, useRef, useState, useMemo } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Waves } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
+import { sectionEmoji } from '../theme/foodDecor';
 import * as echarts from 'echarts';
 import { LANG_COLORS } from './langColors';
 import { streamSurgeStats } from '../utils/vizStats';
+import { InsightTitle } from '../components/InsightTitle';
 
 interface Props {
   data: VisualizationData;
@@ -39,8 +42,8 @@ export function StreamgraphSection({ data }: Props) {
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'cross', label: { backgroundColor: '#6a7985' } },
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
         formatter: (params: any) => {
           let result = `<div style="font-weight:bold;margin-bottom:5px">${params[0].axisValue}年代</div>`;
@@ -63,14 +66,14 @@ export function StreamgraphSection({ data }: Props) {
         type: 'category',
         boundaryGap: false,
         data: decades.map(String),
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
         axisLabel: { color: '#475569' },
       },
       yAxis: {
         type: 'value',
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
         axisLabel: { color: '#475569', formatter: '{value} ppm' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       series,
       animationDuration: 2000,
@@ -102,22 +105,18 @@ export function StreamgraphSection({ data }: Props) {
   return (
     <section id="streamgraph" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <Waves className="w-6 h-6 text-amber-400" />
-          <span className="text-amber-400 text-sm font-semibold uppercase tracking-wider">Streamgraph</span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">外来词汇涌入浪潮</h2>
-        <p className="text-slate-500 max-w-3xl mb-6">
-          堆叠面积图展示 1800–2020 年各语种饮食词在英语书籍中的聚合频率。老词与新词叠加抬升——
-          {topSurge ? (
-            <>
-              1980–2000 年代{topSurge.lang}增幅最大（{topSurge.v80.toFixed(0)}→{topSurge.v2000.toFixed(0)} ppm，
-              +{topSurge.delta.toFixed(0)}），汉语、波斯语、西班牙语、日语同步攀升。
-            </>
-          ) : (
-            <>1980–2000 年代多语种聚合频率同步攀升。</>
-          )}
-        </p>
+        <SectionHeader
+          emoji={sectionEmoji.streamgraph}
+          icon={Waves}
+          kicker="Streamgraph"
+          title="外来词汇涌入浪潮"
+          accent="amber"
+          description={`堆叠面积图展示 1800–2020 年各语种饮食词在英语书籍中的聚合频率。老词与新词叠加抬升——${
+            topSurge
+              ? `1980–2000 年代${topSurge.lang}增幅最大（${topSurge.v80.toFixed(0)}→${topSurge.v2000.toFixed(0)} ppm，+${topSurge.delta.toFixed(0)}），汉语、波斯语、西班牙语、日语同步攀升。`
+              : '1980–2000 年代多语种聚合频率同步攀升。'
+          }`}
+        />
 
         {/* Language filter */}
         <div className="flex flex-wrap gap-2 mb-6">
@@ -141,19 +140,19 @@ export function StreamgraphSection({ data }: Props) {
           ))}
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[500px]" />
         </div>
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
-            <h4 className="text-amber-400 font-semibold mb-1">层累而非替代</h4>
+            <InsightTitle emoji="🏺" className="text-amber-600">层累而非替代</InsightTitle>
             <p className="text-sm text-slate-500">
               首次年 &lt;1800 的词在近期语料中位 0.47 ppm，仍远高于 1950 年后新词——早期交换词与新潮词共同构成浪潮。
             </p>
           </div>
           <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl p-4">
-            <h4 className="text-orange-400 font-semibold mb-1">语种聚合抬升</h4>
+            <InsightTitle emoji="📈" className="text-orange-600">语种聚合抬升</InsightTitle>
             <p className="text-sm text-slate-500">
               {topSurge
                 ? `${topSurge.lang}从 1980 年代 ${topSurge.v80.toFixed(0)} ppm 增至 2000 年代 ${topSurge.v2000.toFixed(0)} ppm（+${topSurge.delta.toFixed(0)}），在语种聚合频率中增幅居首。`
@@ -161,7 +160,7 @@ export function StreamgraphSection({ data }: Props) {
             </p>
           </div>
           <div className="bg-pink-500/5 border border-pink-500/20 rounded-xl p-4">
-            <h4 className="text-pink-400 font-semibold mb-1">多语共振</h4>
+            <InsightTitle emoji="🌍" className="text-pink-600">多语共振</InsightTitle>
             <p className="text-sm text-slate-500">
               {otherSurges.length > 0
                 ? `同期${otherSurges.map((r) => `${r.lang} +${r.delta.toFixed(0)}`).join('、')} ppm——全球化浪潮并非单一语种独享。`

@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Globe } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
+import { sectionEmoji } from '../theme/foodDecor';
 import * as echarts from 'echarts';
 
 import { getLangColor, LANG_COUNTRY, LANG_ORDER } from './langColors';
@@ -76,8 +78,8 @@ export function GlobalMapSection({ data }: Props) {
     const option: echarts.EChartsOption = {
       backgroundColor: 'transparent',
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
         formatter: (params: any) => {
           if (params.seriesType === 'scatter') {
@@ -100,13 +102,13 @@ export function GlobalMapSection({ data }: Props) {
         center: [10, 20],
         silent: false,
         itemStyle: {
-          areaColor: 'rgba(51, 65, 85, 0.4)',
-          borderColor: 'rgba(100, 116, 139, 0.5)',
-          borderWidth: 0.5,
+          areaColor: 'rgba(226, 232, 240, 0.95)',
+          borderColor: 'rgba(148, 163, 184, 0.65)',
+          borderWidth: 0.6,
         },
         emphasis: {
           itemStyle: {
-            areaColor: 'rgba(71, 85, 105, 0.6)',
+            areaColor: 'rgba(203, 213, 225, 1)',
           },
           label: { show: false },
         },
@@ -177,15 +179,14 @@ export function GlobalMapSection({ data }: Props) {
   return (
     <section id="globalmap" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <Globe className="w-6 h-6 text-blue-400" />
-          <span className="text-blue-400 text-sm font-semibold uppercase tracking-wider">Global Flow Map</span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">全球饮食词汇流向图</h2>
-        <p className="text-slate-500 max-w-2xl mb-6">
-          世界地图展示了饮食外来词从来源国家流向英语国家的路径。气泡大小反映词汇数量，颜色区分来源语种。
-          点击上方语种可聚焦单一文化圈的传播路径。
-        </p>
+        <SectionHeader
+          emoji={sectionEmoji.globalmap}
+          icon={Globe}
+          kicker="Global Flow Map"
+          title="全球饮食词汇流向图"
+          accent="sky"
+          description="世界地图展示了饮食外来词从来源国家流向英语国家的路径。气泡大小反映词汇数量，颜色区分来源语种。点击上方语种可聚焦单一文化圈的传播路径。"
+        />
 
         <div className="flex flex-wrap gap-2 mb-4">
           <button
@@ -203,7 +204,7 @@ export function GlobalMapSection({ data }: Props) {
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${
                 activeLang === lang
                   ? 'text-white shadow-lg border-transparent'
-                  : 'bg-white/5 text-slate-500 border-white/10 hover:text-slate-300'
+                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-900 hover:bg-slate-100'
               }`}
               style={activeLang === lang ? { backgroundColor: getLangColor(lang), boxShadow: `0 4px 15px ${getLangColor(lang)}40` } : {}}
             >
@@ -227,7 +228,7 @@ export function GlobalMapSection({ data }: Props) {
           </div>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden relative"
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl overflow-hidden relative"
           style={{ background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.95) 0%, rgba(2, 6, 23, 0.98) 100%)' }}>
           {!mapLoaded && (
             <div className="absolute inset-0 flex items-center justify-center z-10">

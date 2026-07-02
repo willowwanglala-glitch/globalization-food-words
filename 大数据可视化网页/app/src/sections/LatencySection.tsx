@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Clock, BarChart3 } from 'lucide-react';
 import * as echarts from 'echarts';
@@ -25,8 +25,8 @@ export function LatencySection({ data }: Props) {
       option = {
         tooltip: {
           trigger: 'axis',
-          backgroundColor: 'rgba(15, 23, 42, 0.95)',
-          borderColor: 'rgba(255,255,255,0.1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          borderColor: 'rgba(148, 163, 184, 0.45)',
           textStyle: { color: '#334155' },
           formatter: (params: any) => {
             const d = sorted[params[0].dataIndex];
@@ -46,14 +46,14 @@ export function LatencySection({ data }: Props) {
           nameTextStyle: { color: '#475569' },
           min: 1500,
           max: 2020,
-          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+          axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
           axisLabel: { color: '#475569' },
-          splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+          splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
         },
         yAxis: {
           type: 'category',
           data: sorted.map((d) => d.lang),
-          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+          axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
           axisLabel: { color: '#475569', fontSize: 12 },
         },
         series: [
@@ -108,8 +108,8 @@ export function LatencySection({ data }: Props) {
 
       option = {
         tooltip: {
-          backgroundColor: 'rgba(15, 23, 42, 0.95)',
-          borderColor: 'rgba(255,255,255,0.1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          borderColor: 'rgba(148, 163, 184, 0.45)',
           textStyle: { color: '#334155' },
           formatter: (params: any) => {
             return `<b>${sorted[params.value[1]].lang}</b><br/>
@@ -121,13 +121,13 @@ export function LatencySection({ data }: Props) {
         xAxis: {
           type: 'category',
           data: decades.map((d) => `${d}s`),
-          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+          axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
           axisLabel: { color: '#475569' },
         },
         yAxis: {
           type: 'category',
           data: sorted.map((d) => d.lang),
-          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+          axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
           axisLabel: { color: '#475569' },
         },
         visualMap: {
@@ -172,13 +172,13 @@ export function LatencySection({ data }: Props) {
   }, [data, chartType]);
 
   return (
-    <section id="latency" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-900/50">
+    <section id="latency" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-100/90">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-2">
           <Clock className="w-6 h-6 text-orange-400" />
           <span className="text-orange-400 text-sm font-semibold uppercase tracking-wider">Latency Analysis</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">深度不对称：首次出现年份分布</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">深度不对称：首次出现年份分布</h2>
         <p className="text-slate-500 max-w-2xl mb-6">
           下图展示各来源语种饮食借词在 MW 记录中<strong className="text-slate-400">首次出现年份</strong>的中位数及四分位范围
           （非「潜伏期」）。波斯语借词中位首次年最早（1609），意大利语最晚（1893）；法语（1829）与韩语（1885）在时序上相差约 56 年。
@@ -209,7 +209,7 @@ export function LatencySection({ data }: Props) {
           </button>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[500px]" />
         </div>
 

@@ -1,6 +1,9 @@
-import { useEffect, useRef, useMemo } from 'react';
+﻿import { useEffect, useRef, useMemo } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { GitBranch } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
+import { InsightTitle } from '../components/InsightTitle';
+import { sectionEmoji, layerEmoji } from '../theme/foodDecor';
 import * as echarts from 'echarts';
 import {
   sankeyLangLayerCount,
@@ -39,8 +42,8 @@ export function SankeySection({ data }: Props) {
       tooltip: {
         trigger: 'item',
         triggerOn: 'mousemove',
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
         formatter: (params: any) => {
           if (params.dataType === 'edge') {
@@ -91,39 +94,45 @@ export function SankeySection({ data }: Props) {
   return (
     <section id="sankey" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <GitBranch className="w-6 h-6 text-purple-400" />
-          <span className="text-purple-400 text-sm font-semibold uppercase tracking-wider">Sankey Diagram</span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">语义分层桑基图：多中心全球 Pantry</h2>
-        <p className="text-slate-500 max-w-3xl mb-6">
-          借词经由制度、文化资本、身份、技术与食物等语义通道进入英语。
-          {instTotal > 0
-            ? `制度层词条较少（共 ${instTotal} 个），法语 ${instFr} 个、西班牙语 ${instEs} 个；`
-            : '制度层词条极少；'}
-          食物层由{foodLeaders.map((x) => x.lang).join('、')}等多源汇入——呈现多中心 pantry 结构。
-        </p>
+        <SectionHeader
+          emoji={sectionEmoji.sankey}
+          icon={GitBranch}
+          kicker="Sankey Diagram"
+          title="语义分层桑基图：多中心全球 Pantry"
+          accent="purple"
+          description={`借词经由制度、文化资本、身份、技术与食物等语义通道进入英语。${
+            instTotal > 0
+              ? `制度层词条较少（共 ${instTotal} 个），法语 ${instFr} 个、西班牙语 ${instEs} 个；`
+              : '制度层词条极少；'
+          }食物层由${foodLeaders.map((x) => x.lang).join('、')}等多源汇入——呈现多中心 pantry 结构。`}
+        />
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[600px]" />
         </div>
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-4">
-            <h4 className="text-red-400 font-semibold mb-1">制度层 (Institutional)</h4>
+            <InsightTitle emoji={layerEmoji.institutional} className="text-red-600">
+              制度层 (Institutional)
+            </InsightTitle>
             <p className="text-sm text-slate-500">
               restaurant、menu 等法语词定义「怎么吃」的秩序。当前清单中制度层共 {instTotal} 词
               （法语 {instFr}、西班牙语 {instEs}）——制度相关借词占比小，不宜过度放大殖民分层。
             </p>
           </div>
           <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
-            <h4 className="text-amber-400 font-semibold mb-1">文化资本层 (Cultural Capital)</h4>
+            <InsightTitle emoji={layerEmoji.cultural} className="text-amber-600">
+              文化资本层 (Cultural Capital)
+            </InsightTitle>
             <p className="text-sm text-slate-500">
               champagne, café, cuisine 等词汇携带了"高雅文化"的标签，成为社会地位的象征。
             </p>
           </div>
           <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4">
-            <h4 className="text-emerald-400 font-semibold mb-1">食物层 (Food)</h4>
+            <InsightTitle emoji={layerEmoji.food} className="text-emerald-600">
+              食物层 (Food)
+            </InsightTitle>
             <p className="text-sm text-slate-500">
               {foodLeaders.length > 0
                 ? `${foodLeaders.map((x) => `${x.lang}（${x.value} 词）`).join('、')} 流量最高——食物层由多语种共同填充，无单一殖民主导。`

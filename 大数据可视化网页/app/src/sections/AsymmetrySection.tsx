@@ -1,6 +1,9 @@
-import { useEffect, useMemo, useRef } from 'react';
+﻿import { useEffect, useMemo, useRef } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Scale } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
+import { InsightTitle } from '../components/InsightTitle';
+import { sectionEmoji } from '../theme/foodDecor';
 import * as echarts from 'echarts';
 import { LANG_COLORS } from './langColors';
 
@@ -73,9 +76,9 @@ export function AsymmetrySection({ data }: Props) {
 
     chart.setOption({
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
-        textStyle: { color: '#cbd5e1' },
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
+        textStyle: { color: '#334155' },
         formatter: (params: { data: LangPoint & { value: [number, number] } }) => {
           const d = params.data;
           return `<b>${d.lang}</b><br/>
@@ -94,7 +97,7 @@ export function AsymmetrySection({ data }: Props) {
         max: 95,
         nameTextStyle: { color: '#94a3b8' },
         axisLabel: { color: '#94a3b8' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       yAxis: {
         name: '平均语料频率 (ppm)',
@@ -102,7 +105,7 @@ export function AsymmetrySection({ data }: Props) {
         nameGap: 42,
         nameTextStyle: { color: '#94a3b8' },
         axisLabel: { color: '#94a3b8' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       series: [
         {
@@ -147,31 +150,26 @@ export function AsymmetrySection({ data }: Props) {
   return (
     <section
       id="asymmetry"
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900/50 to-transparent"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-100/90 to-transparent"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <Scale className="w-6 h-6 text-indigo-400" />
-          <span className="text-indigo-400 text-sm font-semibold uppercase tracking-wider">
-            Corpus vs Dictionary
-          </span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">语料权力 vs 词典权力：双轨不对称</h2>
-        <p className="text-slate-500 max-w-3xl mb-2">
-          横轴为 MW 收录率，纵轴为有 Ngrams 词条的平均累计语料频率。两轴并不总是一致——
-          「在书里很响」和「在词典里站稳」可以是两条轨道。
-        </p>
-        <p className="text-xs text-slate-500 max-w-3xl mb-6">
-          虚线划分参照：MW 收录率 60%、语料频率中位数。仅统计在气泡图中有语料的词条。
-        </p>
+        <SectionHeader
+          emoji={sectionEmoji.asymmetry}
+          icon={Scale}
+          kicker="Corpus vs Dictionary"
+          title="语料权力 vs 词典权力：双轨不对称"
+          accent="indigo"
+          description="横轴为 MW 收录率，纵轴为有 Ngrams 词条的平均累计语料频率。两轴并不总是一致——「在书里很响」和「在词典里站稳」可以是两条轨道。"
+          note="虚线划分参照：MW 收录率 60%、语料频率中位数。仅统计在气泡图中有语料的词条。"
+        />
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[480px]" />
         </div>
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4">
-            <h4 className="text-indigo-400 font-semibold mb-1">语料主力</h4>
+            <InsightTitle emoji="📈" className="text-indigo-600">语料主力</InsightTitle>
             <p className="text-sm text-slate-500">
               {corpusGiants.length > 0
                 ? `${corpusGiants.map((p) => p.lang).join('、')}：书面语频率高，但 MW 收录率中等（如荷兰语 291 ppm / 66.7%）。`
@@ -179,7 +177,7 @@ export function AsymmetrySection({ data }: Props) {
             </p>
           </div>
           <div className="bg-rose-500/5 border border-rose-500/20 rounded-xl p-4">
-            <h4 className="text-rose-400 font-semibold mb-1">词典宠儿</h4>
+            <InsightTitle emoji="📕" className="text-rose-600">词典宠儿</InsightTitle>
             <p className="text-sm text-slate-500">
               {dictionaryFavorites.length > 0
                 ? `${dictionaryFavorites.map((p) => p.lang).join('、')}：MW 收录率高，但平均语料频率偏低（如意大利语 89.6% / 20.3 ppm）。`
@@ -187,7 +185,7 @@ export function AsymmetrySection({ data }: Props) {
             </p>
           </div>
           <div className="bg-teal-500/5 border border-teal-500/20 rounded-xl p-4">
-            <h4 className="text-teal-400 font-semibold mb-1">制度化滞后</h4>
+            <InsightTitle emoji="⏩" className="text-teal-600">制度化滞后</InsightTitle>
             <p className="text-sm text-slate-500">
               韩语 MW 仅 28.2%，但有语料词平均 30 ppm；tofu、ketchup 等高频词仍面临收录缺口——使用先行、词典滞后。
             </p>

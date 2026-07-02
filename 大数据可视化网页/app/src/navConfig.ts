@@ -20,8 +20,8 @@ export const FULL_NAV: NavItem[] = [
   { id: 'asymmetry', label: '双轨不对称' },
   { id: 'spss', label: 'SPSS检验' },
   { id: 'latency', label: '时序分布' },
-  { id: 'cases', label: '个案深描' },
   { id: 'ml', label: '机器学习' },
+  { id: 'cases', label: '个案深描' },
   { id: 'conclusion', label: '核心结论' },
 ];
 

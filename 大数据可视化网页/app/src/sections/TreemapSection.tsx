@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { LayoutGrid } from 'lucide-react';
 import * as echarts from 'echarts';
@@ -62,8 +62,8 @@ export function TreemapSection({ data }: Props) {
 
     const option: echarts.EChartsOption = {
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
         formatter: (params: any) => {
           const d = params.data;
@@ -96,7 +96,7 @@ export function TreemapSection({ data }: Props) {
             color: '#fff',
           },
           itemStyle: {
-            borderColor: 'rgba(255,255,255,0.1)',
+            borderColor: 'rgba(148, 163, 184, 0.45)',
             borderWidth: 2,
             gapWidth: 2,
           },
@@ -143,7 +143,7 @@ export function TreemapSection({ data }: Props) {
           <LayoutGrid className="w-6 h-6 text-emerald-400" />
           <span className="text-emerald-400 text-sm font-semibold uppercase tracking-wider">Treemap</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">词典收录率树图</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">词典收录率树图</h2>
         <p className="text-slate-500 max-w-2xl mb-6">
           树图（Treemap）以嵌套矩形展示各来源语种的词汇数量和MW词典收录率。矩形面积反映词汇总数，
           颜色深浅反映收录率高低。按收录率分为三层，揭示了词典编纂中的文化偏见。
@@ -172,7 +172,7 @@ export function TreemapSection({ data }: Props) {
           </button>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[500px]" />
         </div>
 

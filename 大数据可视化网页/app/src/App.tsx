@@ -1,10 +1,11 @@
-import { Routes, Route } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router';
 import { useData } from './hooks/useData';
 import { useMlData } from './hooks/useMlData';
 import { useSpssData } from './hooks/useSpssData';
 import { FullReport } from './pages/FullReport';
 import { PreReport } from './pages/PreReport';
 import { LoadingScreen } from './sections/LoadingScreen';
+import { reportUi } from './theme/reportUi';
 import './App.css';
 
 function App() {
@@ -28,11 +29,14 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white">
+    <div className={reportUi.page}>
+      <div className="relative z-10">
       <Routes>
         <Route path="/" element={<FullReport {...sharedProps} />} />
         <Route path="/pre" element={<PreReport {...sharedProps} />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </div>
     </div>
   );
 }

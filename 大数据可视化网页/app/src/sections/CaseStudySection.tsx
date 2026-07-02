@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { BookOpen } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
+import { sectionEmoji } from '../theme/foodDecor';
 import * as echarts from 'echarts';
 import { getLangColor } from './langColors';
 
@@ -77,8 +79,8 @@ export function CaseStudySection({ data }: Props) {
     const option: echarts.EChartsOption = {
       tooltip: {
         trigger: 'axis',
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
         formatter: (params: any) => {
           const p = Array.isArray(params) ? params[0] : params;
@@ -89,7 +91,7 @@ export function CaseStudySection({ data }: Props) {
       xAxis: {
         type: 'category',
         data: caseData.timeSeries.map((t) => String(t.year)),
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
         axisLabel: {
           color: '#475569',
           interval: 39,
@@ -97,9 +99,9 @@ export function CaseStudySection({ data }: Props) {
       },
       yAxis: {
         type: 'value',
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
         axisLabel: { color: '#475569', formatter: '{value}' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       series: [
         {
@@ -118,8 +120,11 @@ export function CaseStudySection({ data }: Props) {
                     xAxis: String(caseData.firstUse),
                     label: {
                       formatter: `MW首次记录: ${caseData.firstUse}`,
-                      color: '#fff',
-                      backgroundColor: accent + '80',
+                      color: '#334155',
+                      backgroundColor: accent + '25',
+                      borderColor: accent,
+                      borderWidth: 1,
+                      padding: [4, 6],
                     },
                     lineStyle: { color: accent, type: 'dashed' },
                   },
@@ -157,15 +162,14 @@ export function CaseStudySection({ data }: Props) {
   return (
     <section id="cases" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <BookOpen className="w-6 h-6 text-blue-400" />
-          <span className="text-blue-400 text-sm font-semibold uppercase tracking-wider">Case Studies</span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">个案深描：词汇的生命周期</h2>
-        <p className="text-slate-500 max-w-2xl mb-6">
-          每个饮食外来词都有自己的"生命故事"。通过深入分析代表性词汇的Ngrams频率轨迹，
-          可以揭示词汇传播的深层机制——从制度需求到文化积累，从移民游击战到后殖民闪电战。
-        </p>
+        <SectionHeader
+          emoji={sectionEmoji.cases}
+          icon={BookOpen}
+          kicker="Case Studies"
+          title="个案深描：词汇的生命周期"
+          accent="orange"
+          description="每个饮食外来词都有自己的「生命故事」。通过深入分析代表性词汇的 Ngrams 频率轨迹，可以揭示词汇传播的深层机制——从制度需求到文化积累，从移民叙事到后殖民传播。"
+        />
 
         {/* Case selector */}
         <div className="flex flex-wrap gap-2 mb-8">
@@ -177,30 +181,30 @@ export function CaseStudySection({ data }: Props) {
               <button
                 key={key}
                 onClick={() => setSelectedCase(key)}
-                className={`px-4 py-2 rounded-xl text-xs font-medium transition-all border ${
+                className={`px-4 py-2 rounded-xl text-xs font-medium transition-all ${
                   selectedCase === key
-                    ? 'text-white shadow-lg scale-105'
-                    : 'bg-white/5 text-slate-500 border-white/10 hover:text-slate-300'
+                    ? 'text-slate-900 shadow-md scale-[1.02] border-2'
+                    : 'bg-slate-50 text-slate-600 border border-slate-200 hover:text-slate-900 hover:bg-slate-100'
                 }`}
                 style={
                   selectedCase === key
                     ? {
-                        backgroundColor: c + '30',
+                        backgroundColor: `${c}18`,
                         borderColor: c,
-                        boxShadow: `0 4px 20px ${c}30`,
+                        boxShadow: `0 4px 14px ${c}22`,
                       }
-                    : {}
+                    : undefined
                 }
               >
-                <div className="font-bold text-sm">{info.title}</div>
-                <div className="opacity-70 text-[10px]">{info.subtitle}</div>
+                <div className="font-bold text-sm text-slate-900">{info.title}</div>
+                <div className="text-[10px] text-slate-600 mt-0.5">{info.subtitle}</div>
               </button>
             );
           })}
         </div>
 
         {/* Selected case detail - always render the chart container */}
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6 mb-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6 mb-6">
           <div className="mb-4">
             <h3
               className="text-2xl font-bold"

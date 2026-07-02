@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { BarChart3 } from 'lucide-react';
 import * as echarts from 'echarts';
@@ -44,8 +44,8 @@ export function BoxplotSection({ data }: Props) {
     const option: echarts.EChartsOption = {
       tooltip: {
         trigger: 'item',
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
         formatter: (params: any) => {
           if (params.seriesType === 'boxplot') {
@@ -64,7 +64,7 @@ export function BoxplotSection({ data }: Props) {
       xAxis: {
         type: 'category',
         data: langs,
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
         axisLabel: { color: '#475569', fontSize: 11 },
       },
       yAxis: {
@@ -73,9 +73,9 @@ export function BoxplotSection({ data }: Props) {
         nameTextStyle: { color: '#475569' },
         min: 1500,
         max: 2020,
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
         axisLabel: { color: '#475569' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       series: [
         {
@@ -104,13 +104,13 @@ export function BoxplotSection({ data }: Props) {
   }, [data, showOutliers]);
 
   return (
-    <section id="boxplot" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-900/50">
+    <section id="boxplot" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-100/90">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-2">
           <BarChart3 className="w-6 h-6 text-teal-400" />
           <span className="text-teal-400 text-sm font-semibold uppercase tracking-wider">Box Plot</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">词汇出现年份箱线图</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">词汇出现年份箱线图</h2>
         <p className="text-slate-500 max-w-2xl mb-6">
           箱线图展示各来源语种饮食词汇首次出现年份的统计分布。箱体代表中间50%数据（IQR），
           中线为中位数，须线延伸至1.5倍IQR范围内的极值，散点为异常值。
@@ -127,7 +127,7 @@ export function BoxplotSection({ data }: Props) {
           </button>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[500px]" />
         </div>
 

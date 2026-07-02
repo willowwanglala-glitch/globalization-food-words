@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 import { Brain, Sparkles } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
+import { sectionEmoji } from '../theme/foodDecor';
 import { type MlResults } from '../hooks/useMlData';
 
 interface Props {
@@ -8,9 +10,9 @@ interface Props {
 }
 
 const tooltipBase = {
-  backgroundColor: 'rgba(15, 23, 42, 0.95)',
-  borderColor: 'rgba(255,255,255,0.1)',
-  textStyle: { color: '#cbd5e1' },
+  backgroundColor: 'rgba(255, 255, 255, 0.98)',
+  borderColor: 'rgba(148, 163, 184, 0.45)',
+  textStyle: { color: '#334155' },
 };
 
 export function MachineLearningSection({ data }: Props) {
@@ -63,13 +65,13 @@ export function MachineLearningSection({ data }: Props) {
         name: 'PCA-1',
         nameTextStyle: { color: '#94a3b8' },
         axisLabel: { color: '#94a3b8' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       yAxis: {
         name: 'PCA-2',
         nameTextStyle: { color: '#94a3b8' },
         axisLabel: { color: '#94a3b8' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       series: clusterFilter === 'all' ? series : series.filter((s) => s.data.length),
     });
@@ -105,7 +107,7 @@ export function MachineLearningSection({ data }: Props) {
           color: '#94a3b8',
           formatter: (v: number) => (v < 0.001 ? v.toExponential(1) : v.toFixed(4)),
         },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       series: curves.map((c) => {
         const cl = clustering.clusters.find((x) => x.id === c.cluster);
@@ -142,12 +144,12 @@ export function MachineLearningSection({ data }: Props) {
         type: 'value',
         max: 1,
         axisLabel: { color: '#94a3b8' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       yAxis: {
         type: 'category',
         data: items.map((x) => x.feature),
-        axisLabel: { color: '#cbd5e1' },
+        axisLabel: { color: '#475569' },
       },
       series: [
         {
@@ -193,7 +195,7 @@ export function MachineLearningSection({ data }: Props) {
         max: maxV + 0.1,
         nameTextStyle: { color: '#94a3b8' },
         axisLabel: { color: '#94a3b8' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       yAxis: {
         name: '预测值',
@@ -201,7 +203,7 @@ export function MachineLearningSection({ data }: Props) {
         max: maxV + 0.1,
         nameTextStyle: { color: '#94a3b8' },
         axisLabel: { color: '#94a3b8' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       series: [
         {
@@ -234,20 +236,17 @@ export function MachineLearningSection({ data }: Props) {
   return (
     <section
       id="ml"
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900/50 to-transparent"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-100/90 to-transparent"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <Brain className="w-6 h-6 text-violet-400" />
-          <span className="text-violet-400 text-sm font-semibold uppercase tracking-wider">
-            05 · Machine Learning
-          </span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">语料轨迹聚类与流行度预测</h2>
-        <p className="text-slate-500 max-w-3xl mb-6">
-          基于 Google Books Ngram 1800–2020 年频率序列，用 K-Means 发现借词「采纳模式」；用随机森林回归从
-          首次年份、语料统计与源语言预测 log(峰值频率)，量化借词在书面语中的流行潜力。
-        </p>
+        <SectionHeader
+          emoji={sectionEmoji.ml}
+          icon={Brain}
+          kicker="Machine Learning"
+          title="语料轨迹聚类与流行度预测"
+          accent="violet"
+          description="基于 Google Books Ngram 1800–2020 年频率序列，用 K-Means 发现借词「采纳模式」；用随机森林回归从首次年份、语料统计与源语言预测 log(峰值频率)，量化借词在书面语中的流行潜力。"
+        />
 
         <div className="flex flex-wrap gap-4 mb-4 text-sm text-slate-400">
           <span>
@@ -283,7 +282,7 @@ export function MachineLearningSection({ data }: Props) {
             className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
               clusterFilter === 'all'
                 ? 'bg-white text-slate-900 shadow-lg'
-                : 'bg-white/5 text-slate-400 border border-white/10 hover:border-white/30'
+                : 'bg-slate-50 text-slate-600 border border-slate-200 hover:border-slate-300'
             }`}
           >
             全部聚类
@@ -295,7 +294,7 @@ export function MachineLearningSection({ data }: Props) {
               className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
                 clusterFilter === String(cl.id)
                   ? 'bg-white text-slate-900 shadow-lg'
-                  : 'bg-white/5 text-slate-400 border border-white/10 hover:border-white/30'
+                  : 'bg-slate-50 text-slate-600 border border-slate-200 hover:border-slate-300'
               }`}
             >
               {cl.name} ({cl.count})
@@ -304,26 +303,26 @@ export function MachineLearningSection({ data }: Props) {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
-            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+          <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
+            <h3 className="text-slate-900 font-semibold mb-4 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-violet-400" />
               PCA 散点图 · 语料轨迹聚类
             </h3>
             <div ref={clusterRef} className="w-full h-[420px]" />
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
-            <h3 className="text-white font-semibold mb-4">典型轨迹 · 各聚类平均语料频率</h3>
+          <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
+            <h3 className="text-slate-900 font-semibold mb-4">典型轨迹 · 各聚类平均语料频率</h3>
             <div ref={curveRef} className="w-full h-[380px]" />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
-              <h3 className="text-white font-semibold mb-4">随机森林 · 特征重要性</h3>
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
+              <h3 className="text-slate-900 font-semibold mb-4">随机森林 · 特征重要性</h3>
               <div ref={importanceRef} className="w-full h-[320px]" />
             </div>
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
-              <h3 className="text-white font-semibold mb-4">回归拟合 · 实际 vs 预测</h3>
+            <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
+              <h3 className="text-slate-900 font-semibold mb-4">回归拟合 · 实际 vs 预测</h3>
               <div ref={regressionRef} className="w-full h-[320px]" />
             </div>
           </div>
@@ -332,10 +331,10 @@ export function MachineLearningSection({ data }: Props) {
             {clustering.clusters.map((cl) => (
               <div
                 key={cl.id}
-                className="bg-white/5 border border-white/10 rounded-xl p-4"
+                className="bg-white border border-slate-200 shadow-sm rounded-xl p-4"
                 style={{ borderColor: `${cl.color}40` }}
               >
-                <h4 className="font-semibold text-white mb-1" style={{ color: cl.color }}>
+                <h4 className="font-semibold text-slate-900 mb-1" style={{ color: cl.color }}>
                   {cl.name}
                 </h4>
                 <p className="text-xs text-slate-500 mb-2">{cl.description}</p>

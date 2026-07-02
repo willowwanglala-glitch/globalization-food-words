@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Target } from 'lucide-react';
 import * as echarts from 'echarts';
@@ -46,8 +46,8 @@ export function RadarSection({ data }: Props) {
 
     const option: echarts.EChartsOption = {
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
       },
       legend: {
@@ -60,9 +60,9 @@ export function RadarSection({ data }: Props) {
         shape: 'polygon',
         splitNumber: 4,
         axisName: { color: '#475569', fontSize: 12 },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
-        splitArea: { areaStyle: { color: ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0.05)'] } },
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.2)' } },
+        splitArea: { areaStyle: { color: ['rgba(148, 163, 184, 0.06)', 'rgba(148, 163, 184, 0.12)'] } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
       },
       series,
       animationDuration: 1500,
@@ -88,7 +88,7 @@ export function RadarSection({ data }: Props) {
           <Target className="w-6 h-6 text-violet-400" />
           <span className="text-violet-400 text-sm font-semibold uppercase tracking-wider">Radar Chart</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">多维度语种特征雷达图</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">多维度语种特征雷达图</h2>
         <p className="text-slate-500 max-w-2xl mb-6">
           雷达图从五个维度对比各来源语种的特征：MW收录率（制度化认可）、词汇丰富度、现代性（进入时间）、
           类别多样性（覆盖的语义领域）、历史深度（首次出现的久远程度）。
@@ -109,7 +109,7 @@ export function RadarSection({ data }: Props) {
           ))}
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[500px]" />
         </div>
 

@@ -1,57 +1,75 @@
-/* Custom scrollbar */
+/* Custom scrollbar — light theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #94a3b8;
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Selection color */
 ::selection {
-  background-color: rgba(245, 158, 11, 0.3);
-  color: white;
+  background-color: rgba(245, 158, 11, 0.25);
+  color: #0f172a;
 }
 
-/* Canvas fix */
 canvas {
   display: block;
 }
 
-/* ECharts tooltip override */
 .echarts-tooltip {
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
 }
 
-/* Section transitions */
 section {
   position: relative;
 }
 
-/* Glow effects for interactive elements */
+/* 浅色背景上的饮食风点缀（低透明度，不抢内容） */
+.report-page {
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(251, 191, 36, 0.07) 0%, transparent 42%),
+    radial-gradient(circle at 92% 18%, rgba(56, 189, 248, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(167, 139, 250, 0.05) 0%, transparent 45%);
+}
+
+.report-page::before {
+  content: '🍜 🥘 🍱 🌮 🍣';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  font-size: 1.25rem;
+  letter-spacing: 4rem;
+  line-height: 8rem;
+  opacity: 0.035;
+  overflow: hidden;
+  word-spacing: 6rem;
+  padding: 2rem;
+  user-select: none;
+}
+
 .glow-amber {
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
 }
 
 .glow-red {
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
 }
 
-/* Animation for floating elements */
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
@@ -65,7 +83,6 @@ section {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Responsive typography */
 @media (max-width: 640px) {
   .text-responsive-4xl {
     font-size: 1.875rem;

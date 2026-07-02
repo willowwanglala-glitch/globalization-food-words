@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Globe, BookOpen, Languages, TrendingUp } from 'lucide-react';
 import CountUp from 'react-countup';
+import { statEmoji, sectionEmoji } from '../theme/foodDecor';
 
 interface Props {
   data: VisualizationData;
@@ -59,7 +60,7 @@ export function HeroSection({ data, mlWordsWithNgrams, variant = 'full' }: Props
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + '40';
+        ctx.fillStyle = p.color + '55';
         ctx.fill();
       });
 
@@ -94,12 +95,56 @@ export function HeroSection({ data, mlWordsWithNgrams, variant = 'full' }: Props
   const totalLangs = Object.keys(data.langStats).length;
   const avgMwRate = Object.values(data.langStats).reduce((sum, s) => sum + s.mw_rate, 0) / totalLangs;
 
+  const statCards = [
+    {
+      emoji: statEmoji.words,
+      icon: BookOpen,
+      value: <CountUp end={totalWords} duration={2} />,
+      label: '外来饮食词汇',
+      card: 'bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200',
+      iconCls: 'text-amber-600',
+      valueCls: 'text-amber-700',
+      labelCls: 'text-amber-700/80',
+    },
+    {
+      emoji: statEmoji.langs,
+      icon: Languages,
+      value: <CountUp end={totalLangs} duration={2} />,
+      label: '来源语种',
+      card: 'bg-gradient-to-br from-sky-50 to-cyan-50 border-sky-200',
+      iconCls: 'text-sky-600',
+      valueCls: 'text-sky-700',
+      labelCls: 'text-sky-700/80',
+    },
+    {
+      emoji: statEmoji.mw,
+      icon: TrendingUp,
+      value: <CountUp end={Math.round(avgMwRate)} duration={2} suffix="%" />,
+      label: '词典平均收录率',
+      card: 'bg-gradient-to-br from-violet-50 to-indigo-50 border-violet-200',
+      iconCls: 'text-violet-600',
+      valueCls: 'text-violet-700',
+      labelCls: 'text-violet-700/80',
+    },
+    {
+      emoji: statEmoji.years,
+      icon: Globe,
+      value: '1800-2020',
+      label: 'Ngrams 时间跨度',
+      card: 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200',
+      iconCls: 'text-emerald-600',
+      valueCls: 'text-emerald-700',
+      labelCls: 'text-emerald-700/80',
+    },
+  ] as const;
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <canvas ref={canvasRef} className="absolute inset-0 z-0" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-sm mb-6">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-full text-amber-700 text-sm mb-6">
+          <span aria-hidden>{sectionEmoji.hero}</span>
           <Globe className="w-4 h-4" />
           <span>{variant === 'pre' ? '答辩精简版 · 10 屏' : '大数据与可视化期末项目'}</span>
         </div>
@@ -109,42 +154,31 @@ export function HeroSection({ data, mlWordsWithNgrams, variant = 'full' }: Props
             全球化下的
           </span>
           <br />
-          <span className="text-white">饮食词汇借用</span>
+          <span className="text-slate-900">
+            饮食词汇借用 <span className="text-3xl sm:text-4xl lg:text-5xl align-middle" aria-hidden>🥡</span>
+          </span>
         </h1>
 
-        <p className="text-lg sm:text-xl text-slate-500 max-w-3xl mx-auto mb-8 leading-relaxed">
+        <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
           探索 {totalWords} 个去重饮食借词如何跨越语言边界——从 Google Ngrams 语料到 MW 词典，
-          揭示<span className="text-amber-400 font-semibold">「层累型全球 pantry」</span>与
-          <span className="text-indigo-400 font-semibold">语料—词典双轨不对称</span>。
+          揭示<span className="text-amber-600 font-semibold">「层累型全球 pantry」</span>与
+          <span className="text-indigo-600 font-semibold">语料—词典双轨不对称</span>。
         </p>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto mb-10">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-            <BookOpen className="w-6 h-6 text-amber-400 mx-auto mb-2" />
-            <div className="text-2xl sm:text-3xl font-bold text-white">
-              <CountUp end={totalWords} duration={2} />
+          {statCards.map(({ emoji, icon: Icon, value, label, card, iconCls, valueCls, labelCls }) => (
+            <div
+              key={label}
+              className={`relative rounded-xl p-4 border shadow-sm transition-transform hover:scale-[1.02] ${card}`}
+            >
+              <span className="absolute top-2 right-2 text-lg opacity-90 select-none" aria-hidden>
+                {emoji}
+              </span>
+              <Icon className={`w-6 h-6 mx-auto mb-2 ${iconCls}`} />
+              <div className={`text-2xl sm:text-3xl font-bold tabular-nums ${valueCls}`}>{value}</div>
+              <div className={`text-xs font-semibold mt-1.5 tracking-wide ${labelCls}`}>{label}</div>
             </div>
-            <div className="text-xs text-slate-500 mt-1">外来饮食词汇</div>
-          </div>
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-            <Languages className="w-6 h-6 text-orange-400 mx-auto mb-2" />
-            <div className="text-2xl sm:text-3xl font-bold text-white">
-              <CountUp end={totalLangs} duration={2} />
-            </div>
-            <div className="text-xs text-slate-500 mt-1">来源语种</div>
-          </div>
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-            <TrendingUp className="w-6 h-6 text-pink-400 mx-auto mb-2" />
-            <div className="text-2xl sm:text-3xl font-bold text-white">
-              <CountUp end={Math.round(avgMwRate)} duration={2} suffix="%" />
-            </div>
-            <div className="text-xs text-slate-500 mt-1">词典平均收录率</div>
-          </div>
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-            <Globe className="w-6 h-6 text-cyan-400 mx-auto mb-2" />
-            <div className="text-2xl sm:text-3xl font-bold text-white">1800-2020</div>
-            <div className="text-xs text-slate-500 mt-1">Ngrams 时间跨度</div>
-          </div>
+          ))}
         </div>
 
         <p className="text-xs text-slate-500 max-w-2xl mx-auto mb-8 leading-relaxed">
@@ -157,13 +191,13 @@ export function HeroSection({ data, mlWordsWithNgrams, variant = 'full' }: Props
             onClick={() => document.getElementById('globalmap')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all shadow-lg shadow-amber-500/25"
           >
-            {variant === 'pre' ? '开始答辩' : '开始探索'}
+            {variant === 'pre' ? '🎬 开始答辩' : '🔍 开始探索'}
           </button>
           <button
             onClick={() => document.getElementById('asymmetry')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-violet-600 text-white font-semibold rounded-lg hover:from-indigo-600 hover:to-violet-700 transition-all shadow-lg shadow-indigo-500/25"
           >
-            双轨不对称
+            ⚖️ 双轨不对称
           </button>
         </div>
       </div>

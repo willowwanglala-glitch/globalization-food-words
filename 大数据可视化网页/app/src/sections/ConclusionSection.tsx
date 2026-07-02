@@ -1,7 +1,9 @@
-import { type VisualizationData } from '../hooks/useData';
-import { Globe, BookOpen, TrendingUp, BarChart3, Layers, Scale } from 'lucide-react';
+﻿import { type VisualizationData } from '../hooks/useData';
+import { Globe, BookOpen, TrendingUp, BarChart3, Layers, Scale, Sparkles } from 'lucide-react';
 import { useMemo } from 'react';
 import { sankeyLayerLeaders, streamSurgeStats } from '../utils/vizStats';
+import { SectionHeader } from '../components/SectionHeader';
+import { sectionEmoji } from '../theme/foodDecor';
 
 interface Props {
   data: VisualizationData;
@@ -18,22 +20,24 @@ export function ConclusionSection({ data }: Props) {
   const foodLeaders = useMemo(() => sankeyLayerLeaders(data, '食物层', 3), [data]);
 
   return (
-    <section id="conclusion" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-950">
+    <section id="conclusion" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-100">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">核心发现与理论贡献</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto">
-            基于 {totalWords} 个去重饮食借词在 Ngrams 语料、MW 首次记录与 MW 收录三维数据上的交叉分析，
-            本研究提出「层累型全球 pantry」与「语料—词典双轨不对称」框架。
-          </p>
-        </div>
+        <SectionHeader
+          emoji={sectionEmoji.conclusion}
+          icon={Sparkles}
+          kicker="Key Findings"
+          title="核心发现与理论贡献"
+          accent="amber"
+          align="center"
+          description={`基于 ${totalWords} 个去重饮食借词在 Ngrams 语料、MW 首次记录与 MW 收录三维数据上的交叉分析，本研究提出「层累型全球 pantry」与「语料—词典双轨不对称」框架。`}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           <div className="bg-gradient-to-br from-indigo-500/10 to-violet-500/5 border border-indigo-500/20 rounded-2xl p-6 hover:border-indigo-500/40 transition-all">
             <div className="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center mb-4">
               <Scale className="w-6 h-6 text-indigo-400" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">语料—词典双轨不对称</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">⚖️ 语料—词典双轨不对称</h3>
             <p className="text-sm text-slate-500 leading-relaxed">
               荷兰语/阿拉伯语/汉语：语料频率高、MW 收录中等；意大利语：收录率 89.6% 但平均语料仅 20.3 ppm。
               韩语 MW 28.2% 却有 30 ppm 平均语料——「响不响」与「收不收」常不同步。
@@ -44,7 +48,7 @@ export function ConclusionSection({ data }: Props) {
             <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center mb-4">
               <Layers className="w-6 h-6 text-amber-400" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">层累型借用</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">🏺 层累型借用</h3>
             <p className="text-sm text-slate-500 leading-relaxed">
               首次年 &lt;1800 的词近期语料中位 0.47 ppm，远高于 1950 年后新词（0.05 ppm）。
               早期殖民交换词仍是底层高频，新词叠加而非替代——借用是层累而非换代。
@@ -55,7 +59,7 @@ export function ConclusionSection({ data }: Props) {
             <div className="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center mb-4">
               <Globe className="w-6 h-6 text-red-400" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">多中心语义分层</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">🥘 多中心语义分层</h3>
             <p className="text-sm text-slate-500 leading-relaxed">
               法语在制度层词条极少；食物层由{foodLeaders.map((x) => x.lang).join('、')}等主导。
               全球 pantry（调料、饮品、主食）多语汇入，而非单一殖民二元结构。
@@ -66,7 +70,7 @@ export function ConclusionSection({ data }: Props) {
             <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4">
               <BookOpen className="w-6 h-6 text-emerald-400" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">词典语义场偏见</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">📕 词典语义场偏见</h3>
             <p className="text-sm text-slate-500 leading-relaxed">
               SPSS 卡方检验（662 词，五类语义场）显示 MW 收录与类别显著相关（χ²=32.33，p&lt;.001）。
               饮品类收录率约 46%，技法/调味约 76%——偏见因语义场而异，见「SPSS检验」模块。
@@ -77,7 +81,7 @@ export function ConclusionSection({ data }: Props) {
             <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
               <TrendingUp className="w-6 h-6 text-purple-400" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">1980–2000 语料浪潮</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">🌊 1980–2000 语料浪潮</h3>
             <p className="text-sm text-slate-500 leading-relaxed">
               {surge[0] ? (
                 <>
@@ -98,7 +102,7 @@ export function ConclusionSection({ data }: Props) {
             <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-4">
               <BarChart3 className="w-6 h-6 text-cyan-400" />
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">轨迹 &gt; 首次年</h3>
+            <h3 className="text-lg font-bold text-slate-900 mb-2">🧠 轨迹 &gt; 首次年</h3>
             <p className="text-sm text-slate-500 leading-relaxed">
               随机森林显示：预测语料峰值时，历史平均频率占 95.7% 特征重要性，首次年份仅 1.8%。
               借词流行度取决于已有使用轨迹，而非「哪一年首次被 MW 记录」。
@@ -106,7 +110,7 @@ export function ConclusionSection({ data }: Props) {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 text-center">
+        <div className="border-t border-slate-200 pt-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Globe className="w-5 h-5 text-amber-400" />
             <span className="text-amber-400 font-semibold">全球化下的饮食词汇借用</span>

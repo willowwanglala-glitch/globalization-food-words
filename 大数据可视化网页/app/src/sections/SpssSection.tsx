@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 import { ClipboardCheck } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
+import { sectionEmoji } from '../theme/foodDecor';
 import { type SpssMwCategoryResults } from '../hooks/useSpssData';
 
 interface Props {
@@ -8,9 +10,9 @@ interface Props {
 }
 
 const tooltipBase = {
-  backgroundColor: 'rgba(15, 23, 42, 0.95)',
-  borderColor: 'rgba(255,255,255,0.1)',
-  textStyle: { color: '#cbd5e1' },
+  backgroundColor: 'rgba(255, 255, 255, 0.98)',
+  borderColor: 'rgba(148, 163, 184, 0.45)',
+  textStyle: { color: '#334155' },
 };
 
 type ViewMode = 'merged' | 'detailed';
@@ -63,13 +65,13 @@ export function SpssSection({ data }: Props) {
         name: 'MW 收录率 (%)',
         nameTextStyle: { color: '#94a3b8' },
         axisLabel: { color: '#94a3b8', formatter: '{value}%' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       yAxis: {
         type: 'category',
         data: chartRows.map((r) => r.category),
         axisLabel: { color: '#94a3b8', fontSize: 11 },
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.35)' } },
       },
       series: [
         {
@@ -130,7 +132,7 @@ export function SpssSection({ data }: Props) {
         name: '词数',
         nameTextStyle: { color: '#94a3b8' },
         axisLabel: { color: '#94a3b8' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       yAxis: {
         type: 'category',
@@ -170,24 +172,18 @@ export function SpssSection({ data }: Props) {
   return (
     <section
       id="spss"
-      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-900/40"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-100/80"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <ClipboardCheck className="w-6 h-6 text-emerald-400" />
-          <span className="text-emerald-400 text-sm font-semibold uppercase tracking-wider">
-            SPSS Validation
-          </span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">SPSS 检验：词典收录 × 语义类别</h2>
-        <p className="text-slate-500 max-w-3xl mb-2">
-          对 662 个去重借词进行 Pearson 卡方检验（{data.description}）。
-          结果支持「词典扩展存在语义场选择性」，与双轨不对称叙事一致。
-        </p>
-        <p className="text-xs text-slate-500 max-w-3xl mb-6">
-          数据来源：<code className="text-slate-400">spss_dataset_clean.csv</code>（662 词，主来源，0 缺失）。
-          默认展示合并后的五类语义场；细分类视图供探索参考。
-        </p>
+        <SectionHeader
+          emoji={sectionEmoji.spss}
+          icon={ClipboardCheck}
+          kicker="SPSS Validation"
+          title="SPSS 检验：词典收录 × 语义类别"
+          accent="emerald"
+          description={`对 662 个去重借词进行 Pearson 卡方检验（${data.description}）。结果支持「词典扩展存在语义场选择性」，与双轨不对称叙事一致。`}
+          note="数据来源：spss_dataset_clean.csv（662 词，主来源，0 缺失）。默认展示合并后的五类语义场；细分类视图供探索参考。"
+        />
 
         <div className="flex flex-wrap gap-2 mb-6">
           <button
@@ -196,7 +192,7 @@ export function SpssSection({ data }: Props) {
             className={`px-4 py-2 rounded-lg text-sm transition-colors ${
               view === 'merged'
                 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                : 'bg-white/5 text-slate-500 border border-white/10 hover:text-slate-300'
+                : 'bg-slate-50 text-slate-600 border border-slate-200 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
             五类语义场（推荐）
@@ -207,7 +203,7 @@ export function SpssSection({ data }: Props) {
             className={`px-4 py-2 rounded-lg text-sm transition-colors ${
               view === 'detailed'
                 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                : 'bg-white/5 text-slate-500 border border-white/10 hover:text-slate-300'
+                : 'bg-slate-50 text-slate-600 border border-slate-200 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
             细分类（样本≥8）
@@ -215,26 +211,26 @@ export function SpssSection({ data }: Props) {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-white">{chi.n_valid}</div>
+          <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-slate-900">{chi.n_valid}</div>
             <div className="text-xs text-slate-500 mt-1">有效个案</div>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+          <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-4 text-center">
             <div className="text-2xl font-bold text-emerald-400">{chi.chi2}</div>
             <div className="text-xs text-slate-500 mt-1">Pearson χ²</div>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-white">{chi.df}</div>
+          <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-4 text-center">
+            <div className="text-2xl font-bold text-slate-900">{chi.df}</div>
             <div className="text-xs text-slate-500 mt-1">自由度 df</div>
           </div>
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+          <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-4 text-center">
             <div className="text-2xl font-bold text-amber-400">{chi.p_display}</div>
             <div className="text-xs text-slate-500 mt-1">显著性 p</div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+          <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
             <h3 className="text-sm font-semibold text-slate-300 mb-3">各类别 MW 收录率</h3>
             <div
               ref={chartRef}
@@ -242,7 +238,7 @@ export function SpssSection({ data }: Props) {
               style={{ height: Math.max(280, chartRows.length * 36 + 48) }}
             />
           </div>
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+          <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
             <h3 className="text-sm font-semibold text-slate-300 mb-3">收录 / 未收录 词数构成</h3>
             <div
               ref={stackRef}

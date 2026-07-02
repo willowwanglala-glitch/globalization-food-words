@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+﻿import { useState, useMemo } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Cloud } from 'lucide-react';
 import { LANG_COLORS } from './langColors';
@@ -49,7 +49,7 @@ export function WordCloudSection({ data }: Props) {
           <Cloud className="w-6 h-6 text-sky-400" />
           <span className="text-sky-400 text-sm font-semibold uppercase tracking-wider">Word Cloud</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">高频词汇词云图</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">高频词汇词云图</h2>
         <p className="text-slate-500 max-w-2xl mb-2">
           词云以字体大小表示词汇的累计使用频率，颜色区分来源语种。越大的词汇代表其在英语书籍中的历史存在感越强。
         </p>
@@ -81,7 +81,7 @@ export function WordCloudSection({ data }: Props) {
           ))}
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6 relative overflow-hidden" style={{ height: '500px' }}>
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6 relative overflow-hidden" style={{ height: '500px' }}>
           {positionedWords.map((w) => (
             <span
               key={`${w.name}-${w.lang}`}
@@ -107,7 +107,7 @@ export function WordCloudSection({ data }: Props) {
           ))}
 
           {hoveredWord && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-slate-900/90 border border-slate-200 rounded-lg px-4 py-2 text-sm text-white z-20 pointer-events-none">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/95 border border-slate-300 rounded-lg px-4 py-2 text-sm text-slate-800 shadow-md z-20 pointer-events-none">
               {(() => {
                 const w = words.find((x) => x.name === hoveredWord);
                 return w ? (

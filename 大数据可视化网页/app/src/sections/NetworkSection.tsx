@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Network } from 'lucide-react';
 import * as echarts from 'echarts';
@@ -35,9 +35,9 @@ export function NetworkSection({ data }: Props) {
 
     const option: echarts.EChartsOption = {
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
-        textStyle: { color: '#cbd5e1' },
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
+        textStyle: { color: '#334155' },
         formatter: (params: any) => {
           if (params.dataType === 'node') {
             const kind = params.data.category === 'language' ? '来源语种' : `类别: ${params.data.category}`;
@@ -118,13 +118,13 @@ export function NetworkSection({ data }: Props) {
   const topBySize = [...langNodes].sort((a, b) => b.value - a.value).slice(0, 3);
 
   return (
-    <section id="network" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-900/50">
+    <section id="network" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-100/90">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-2">
           <Network className="w-6 h-6 text-cyan-400" />
           <span className="text-cyan-400 text-sm font-semibold uppercase tracking-wider">Force-Directed Graph</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">词汇关系力导向网络图</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">词汇关系力导向网络图</h2>
         <p className="text-slate-500 max-w-2xl mb-6">
           力导向网络展示 13 个主来源语种（节点大小 = 该语种词数，662 词口径）与 40 个高语料代表词之间的归属关系。
           可拖拽节点、缩放画布，或按语种筛选子网络。
@@ -136,7 +136,7 @@ export function NetworkSection({ data }: Props) {
             className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all ${
               focusLang === ''
                 ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                : 'bg-white/5 text-slate-500 border border-white/10 hover:text-slate-300'
+                : 'bg-slate-50 text-slate-600 border border-slate-200 hover:text-slate-900 hover:bg-slate-100'
             }`}
           >
             全部显示
@@ -148,7 +148,7 @@ export function NetworkSection({ data }: Props) {
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all border ${
                 focusLang === n.id
                   ? 'text-white shadow-lg border-transparent'
-                  : 'bg-white/5 text-slate-500 border-white/10 hover:text-slate-300'
+                  : 'bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-900 hover:bg-slate-100'
               }`}
               style={
                 focusLang === n.id
@@ -161,7 +161,7 @@ export function NetworkSection({ data }: Props) {
           ))}
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[600px]" />
         </div>
 

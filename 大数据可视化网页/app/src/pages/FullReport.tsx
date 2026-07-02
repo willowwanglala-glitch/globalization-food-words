@@ -71,7 +71,6 @@ export function FullReport({
       )}
       {spssData && <SpssSection data={spssData} />}
       <LatencySection data={data} />
-      <CaseStudySection data={data} />
       {mlLoading && (
         <div className="text-center py-16 text-slate-500 text-sm">机器学习分析模块加载中…</div>
       )}
@@ -81,6 +80,7 @@ export function FullReport({
         </div>
       )}
       {mlData && <MachineLearningSection data={mlData} />}
+      <CaseStudySection data={data} />
       <ConclusionSection data={data} />
     </>
   );

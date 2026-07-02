@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { Sun } from 'lucide-react';
 import * as echarts from 'echarts';
@@ -24,8 +24,8 @@ export function SunburstSection({ data }: Props) {
 
     const option: echarts.EChartsOption = {
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
         formatter: (params: any) => {
           const d = params.data;
@@ -86,13 +86,13 @@ export function SunburstSection({ data }: Props) {
   }, [data, activeLang]);
 
   return (
-    <section id="sunburst" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-900/50">
+    <section id="sunburst" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-100/90">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-2">
           <Sun className="w-6 h-6 text-yellow-400" />
           <span className="text-yellow-400 text-sm font-semibold uppercase tracking-wider">Sunburst Chart</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">语义层级旭日图</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">语义层级旭日图</h2>
         <p className="text-slate-500 max-w-2xl mb-6">
           旭日图（Sunburst）以同心圆层级结构展示词汇的归属关系：内圈为来源语种，中圈为语义类别，外圈为具体词汇。
           直观展示各语种饮食词在不同类别上的分布特征。
@@ -121,7 +121,7 @@ export function SunburstSection({ data }: Props) {
           ))}
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[600px]" />
         </div>
 

@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { CircleDot } from 'lucide-react';
+import { SectionHeader } from '../components/SectionHeader';
+import { sectionEmoji } from '../theme/foodDecor';
 import * as echarts from 'echarts';
 import { LANG_COLORS } from './langColors';
 
@@ -46,8 +48,8 @@ export function BubbleChartSection({ data }: Props) {
 
     const option: echarts.EChartsOption = {
       tooltip: {
-        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        borderColor: 'rgba(148, 163, 184, 0.45)',
         textStyle: { color: '#334155' },
         formatter: (params: any) => {
           const d = params.data;
@@ -73,9 +75,9 @@ export function BubbleChartSection({ data }: Props) {
         nameTextStyle: { color: '#475569' },
         min: 1550,
         max: 2020,
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
         axisLabel: { color: '#475569' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       yAxis: {
         type: 'value',
@@ -83,9 +85,9 @@ export function BubbleChartSection({ data }: Props) {
         nameLocation: 'middle',
         nameGap: 45,
         nameTextStyle: { color: '#475569' },
-        axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+        axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
         axisLabel: { color: '#475569' },
-        splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+        splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
       },
       series: activeLang === '全部' ? series : series.filter((s) => s.name === activeLang),
       animationDuration: 1500,
@@ -106,21 +108,17 @@ export function BubbleChartSection({ data }: Props) {
   const langs = ['全部', ...Object.keys(LANG_COLORS)];
 
   return (
-    <section id="bubble" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-900/50">
+    <section id="bubble" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-100/90">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <CircleDot className="w-6 h-6 text-pink-400" />
-          <span className="text-pink-400 text-sm font-semibold uppercase tracking-wider">Bubble Chart</span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">词汇时空分布气泡图</h2>
-        <p className="text-slate-500 max-w-2xl mb-2">
-          每个气泡代表一个饮食外来词，横轴为首次出现年份，纵轴为近期使用频率，气泡大小反映历史累计频率。
-          通过气泡分布可以观察不同语种的词汇进入英语的时间模式。
-        </p>
-        <p className="text-xs text-slate-500 max-w-2xl mb-6">
-          本图展示 {data.bubbleData.length} 条在 Google Ngrams 中有语料数据的词（去重约{' '}
-          {new Set(data.bubbleData.map((d) => d.word.toLowerCase())).size} 个），未覆盖全部 {totalWords} 个清单词。
-        </p>
+        <SectionHeader
+          emoji={sectionEmoji.bubble}
+          icon={CircleDot}
+          kicker="Bubble Chart"
+          title="词汇时空分布气泡图"
+          accent="pink"
+          description="每个气泡代表一个饮食外来词，横轴为首次出现年份，纵轴为近期使用频率，气泡大小反映历史累计频率。通过气泡分布可以观察不同语种的词汇进入英语的时间模式。"
+          note={`本图展示 ${data.bubbleData.length} 条在 Google Ngrams 中有语料数据的词（去重约 ${new Set(data.bubbleData.map((d) => d.word.toLowerCase())).size} 个），未覆盖全部 ${totalWords} 个清单词。`}
+        />
 
         <div className="flex flex-wrap gap-2 mb-6">
           {langs.map((lang) => (
@@ -138,7 +136,7 @@ export function BubbleChartSection({ data }: Props) {
           ))}
         </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[550px]" />
         </div>
 

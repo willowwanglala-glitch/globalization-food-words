@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { type VisualizationData } from '../hooks/useData';
 import { PieChart } from 'lucide-react';
 import * as echarts from 'echarts';
@@ -26,8 +26,8 @@ export function CategoryDistSection({ data }: Props) {
     if (chartType === 'pie') {
       option = {
         tooltip: {
-          backgroundColor: 'rgba(15, 23, 42, 0.95)',
-          borderColor: 'rgba(255,255,255,0.1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          borderColor: 'rgba(148, 163, 184, 0.45)',
           textStyle: { color: '#334155' },
           formatter: (params: any) => `<b>${params.name}</b>: ${params.value} 词 (${params.percent}%)`,
         },
@@ -80,8 +80,8 @@ export function CategoryDistSection({ data }: Props) {
       option = {
         tooltip: {
           trigger: 'axis' as const,
-          backgroundColor: 'rgba(15, 23, 42, 0.95)',
-          borderColor: 'rgba(255,255,255,0.1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.98)',
+          borderColor: 'rgba(148, 163, 184, 0.45)',
           textStyle: { color: '#334155' },
           axisPointer: { type: 'shadow' as const },
         },
@@ -95,16 +95,16 @@ export function CategoryDistSection({ data }: Props) {
         xAxis: {
           type: 'category' as const,
           data: categories,
-          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+          axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
           axisLabel: { color: '#475569', fontSize: 10, rotate: 30 },
         },
         yAxis: {
           type: 'value' as const,
           name: '词汇数量',
           nameTextStyle: { color: '#475569' },
-          axisLine: { lineStyle: { color: 'rgba(255,255,255,0.2)' } },
+          axisLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.55)' } },
           axisLabel: { color: '#475569' },
-          splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },
+          splitLine: { lineStyle: { color: 'rgba(148, 163, 184, 0.18)' } },
         },
         series: langs.map((lang) => ({
           name: lang,
@@ -127,13 +127,13 @@ export function CategoryDistSection({ data }: Props) {
   const langsWithData = Object.keys(data.categoryDist).filter((l) => Object.keys(LANG_COLORS).includes(l));
 
   return (
-    <section id="category" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-900/50">
+    <section id="category" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-100/90">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-2">
           <PieChart className="w-6 h-6 text-rose-400" />
           <span className="text-rose-400 text-sm font-semibold uppercase tracking-wider">Category Distribution</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">语义类别分布图</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">语义类别分布图</h2>
         <p className="text-slate-500 max-w-2xl mb-6">
           环形图展示单一语种的词汇在各语义类别（如面食、饮品、调味品等）上的分布。
           堆叠柱状图则可跨语种对比各类别的覆盖情况。
@@ -175,7 +175,7 @@ export function CategoryDistSection({ data }: Props) {
           </div>
         )}
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 sm:p-6">
           <div ref={chartRef} className="w-full h-[500px]" />
         </div>
 
